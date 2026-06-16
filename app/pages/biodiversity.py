@@ -1,47 +1,47 @@
 
 import streamlit as st
 
-from repositories.company_repository import CompanyRepository
+# from repositories.company_repository import CompanyRepository
 
-st.set_page_config(
-    page_title="Biodiversity Missing Data",
-    layout="wide"
-)
+# st.set_page_config(
+#     page_title="Biodiversity Missing Data",
+#     layout="wide"
+# )
 
-st.title("Biodiversity Missing Data")
+# st.title("Biodiversity Missing Data")
 
-companies_df = CompanyRepository.get_companies()
+# companies_df = CompanyRepository.get_companies()
 
-company_map = dict(
-    zip(
-        companies_df["company_name"],
-        companies_df["id"]
-    )
-)
+# company_map = dict(
+#     zip(
+#         companies_df["company_name"],
+#         companies_df["id"]
+#     )
+# )
 
 
 
 # Top Filters
-col1, col2 = st.columns(2)
+# col1, col2 = st.columns(2)
 
-with col1:
-    selected_company = st.selectbox(
-        "Select Company",
-        companies_df["company_name"]
-    )
+# with col1:
+#     selected_company = st.selectbox(
+#         "Select Company",
+#         companies_df["company_name"]
+#     )
 
-with col2:
-    selected_year = st.selectbox(
-        "Select Year",
-        [
-            2021,
-            2022,
-            2023,
-            2024,
-            2025,
-            2026
-        ]
-    )
+# with col2:
+#     selected_year = st.selectbox(
+#         "Select Year",
+#         [
+#             2021,
+#             2022,
+#             2023,
+#             2024,
+#             2025,
+#             2026
+#         ]
+#     )
 
 
 st.title("GRI 101 : Biodiveristy 2024")

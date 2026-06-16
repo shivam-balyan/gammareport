@@ -1,5 +1,5 @@
 import streamlit as st
-from repositories.company_repository import CompanyRepository
+# from repositories.company_repository import CompanyRepository
 
 st.set_page_config(page_title="Environment Missing Data", layout="wide")
 st.title("Environment Missing Data")
@@ -52,16 +52,16 @@ def conditional_text_upload(question_label, yes_text_label, yes_text_placeholder
 # Company / Year Filters
 # ─────────────────────────────────────────
 
-companies_df = CompanyRepository.get_companies()
-company_map = dict(zip(companies_df["company_name"], companies_df["id"]))
+# companies_df = CompanyRepository.get_companies()
+# company_map = dict(zip(companies_df["company_name"], companies_df["id"]))
 
-col1, col2 = st.columns(2)
-with col1:
-    selected_company = st.selectbox("Select Company", companies_df["company_name"])
-with col2:
-    selected_year = st.selectbox("Select Year", [2021, 2022, 2023, 2024, 2025, 2026])
+# col1, col2 = st.columns(2)
+# with col1:
+#     selected_company = st.selectbox("Select Company", companies_df["company_name"])
+# with col2:
+#     selected_year = st.selectbox("Select Year", [2021, 2022, 2023, 2024, 2025, 2026])
 
-selected_company_id = company_map[selected_company]
+# selected_company_id = company_map[selected_company]
 
 # ─────────────────────────────────────────
 # GRI 301 : Materials

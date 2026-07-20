@@ -1,124 +1,56 @@
+"""Streamlit entry point — configures the app and routes between pages."""
+
+import sys
+from pathlib import Path
+
+# Make the project root importable so `app`, `repositories`, `core`, etc.
+# resolve when launched via `streamlit run app/main.py`.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import streamlit as st
 
-from repositories.company_repository import CompanyRepository
-from repositories.esg_repository import ESGRepository
+from app import constants
+from app.ui import theme
+from app.views import dashboard, environment
+
+# Maps the sidebar navigation label to the page's render function.
+PAGES = {
+    constants.NAV_DASHBOARD: dashboard.render,
+    constants.NAV_ENVIRONMENT: environment.render,
+}
 
 
-st.set_page_config(
-    page_title="Gamma ESG Export",
-    layout="wide"
-)
-
-st.title("Gamma ESG Export")
-
-
-
-companies_df = CompanyRepository.get_companies()
-
-company_map = dict(
-    zip(
-        companies_df["company_name"],
-        companies_df["id"]
+def _configure_page():
+    st.set_page_config(
+        page_title=constants.PAGE_TITLE,
+        page_icon="🌱",
+        layout=constants.PAGE_LAYOUT,
     )
-)
+    theme.apply()
 
 
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-
-    selected_company = st.selectbox(
-        "Select Company",
-        companies_df["company_name"]
-    )
-
-with col2:
-
-    selected_esg = st.selectbox(
-        "Select ESG",
-        [
-            "ALL",
-            "ENVIRONMENT",
-            "SOCIAL",
-            "GOVERNANCE"
-        ]
-    )
-
-with col3:
-
-    selected_year = st.selectbox(
-        "Select Year",
-        [
-            2021,
-            2022,
-            2023,
-            2024,
-            2025,
-            2026
-        ]
-    )
-
-
-selected_kpi = None
-
-if selected_esg == "ENVIRONMENT":
-
-    selected_kpi = st.selectbox(
-        "Select Environment KPI",
-        [
-            "ALL",
-            "ENERGY",
-            "WATER",
-            "EMISSION",
-            "WASTE"
-        ]
-    )
-
-
-
-company_id = company_map[selected_company]
-
-
-
-if st.button("Fetch Data"):
-
-    with st.spinner("Fetching ESG data..."):
-
-        df = ESGRepository.fetch_data(
-            company_id=company_id,
-            year=selected_year,
-            esg_type=selected_esg,
-            kpi=selected_kpi
+def _select_page():
+    with st.sidebar:
+        st.markdown(
+            f'<div class="brand">🌱 {constants.APP_TITLE}</div>',
+            unsafe_allow_html=True,
         )
+        st.caption(constants.APP_TAGLINE)
+        st.write("")
+        selected = st.radio(
+            "Navigation",
+            list(PAGES.keys()),
+            label_visibility="collapsed",
+        )
+        st.divider()
+        st.caption("GRI-aligned ESG reporting")
+        return selected
 
 
-    st.success(f"Fetched {len(df)} records")
-
-    st.dataframe(
-        df,
-        use_container_width=True
-    )
+def main():
+    _configure_page()
+    selected_page = _select_page()
+    PAGES[selected_page]()
 
 
-
-    csv = df.to_csv(index=False)
-
-    st.download_button(
-        label="Download CSV",
-        data=csv,
-        file_name=f"{selected_company}_{selected_esg}_{selected_year}.csv",
-        mime="text/csv"
-    )
-
-
-
-
-st.divider()
-
-st.write("Selected Company:", selected_company)
-st.write("Selected ESG:", selected_esg)
-st.write("Selected Year:", selected_year)
-
-if selected_kpi:
-    st.write("Selected KPI:", selected_kpi)
+main()

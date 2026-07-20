@@ -17,11 +17,13 @@ PAGE_LAYOUT = "wide"
 
 NAV_DASHBOARD = "Dashboard"
 NAV_ENVIRONMENT = "Environment"
+NAV_UNIVERSAL = "Universal Standards"
 
 # --- Page subtitles -----------------------------------------------------------
 
 DASHBOARD_SUBTITLE = "Fetch and export company ESG data."
 ENVIRONMENT_SUBTITLE = "GRI environmental disclosures — materials and energy."
+UNIVERSAL_SUBTITLE = "GRI 2 General Disclosures (2-1 to 2-30)."
 
 # --- ESG categories -----------------------------------------------------------
 

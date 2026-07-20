@@ -11,12 +11,13 @@ import streamlit as st
 
 from app import constants
 from app.ui import theme
-from app.views import dashboard, environment
+from app.views import dashboard, environment, universal
 
 # Maps the sidebar navigation label to the page's render function.
 PAGES = {
     constants.NAV_DASHBOARD: dashboard.render,
     constants.NAV_ENVIRONMENT: environment.render,
+    constants.NAV_UNIVERSAL: universal.render,
 }
 
 
